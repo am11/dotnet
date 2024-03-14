@@ -210,6 +210,10 @@ jobs:
       displayName: Setup Previously Source-Built SDK
 
   - ${{ if eq(parameters.targetOS, 'windows') }}:
+    - task: NodeTool@0
+      displayName: Install Node 20.x
+      inputs:
+        versionSpec: 20.x
     - script: |
         call $(sourcesPath)\build.cmd -ci -cleanWhileBuilding -prepareMachine ${{ parameters.extraProperties }}
       displayName: Build
