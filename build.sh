@@ -39,6 +39,7 @@ usage()
   echo "  --excludeCIBinarylog            Don't output binary log (short: -nobl)"
   echo "  --prepareMachine                Prepare machine for CI run, clean up processes after build"
   echo "  --use-mono-runtime              Output uses the mono runtime"
+  echo "  --outputrid <rid>               Mandatory argument that specifies the target rid name."
   echo ""
   echo "Command line arguments not listed above are passed thru to msbuild."
   echo "Arguments can also be passed in with a single hyphen."
@@ -180,6 +181,11 @@ while [[ $# > 0 ]]; do
     -use-mono-runtime)
       properties="$properties /p:SourceBuildUseMonoRuntime=true"
       ;;
+    -outputrid)
+      _targetRid=1
+      properties="$properties /p:TargetRID=$2"
+      ;;
+
 
     *)
       properties="$properties $1"
@@ -188,6 +194,11 @@ while [[ $# > 0 ]]; do
 
   shift
 done
+
+if [[ -z "$_targetRid" ]]; then
+  echo "ERROR: missing required argument --outputrid"
+  exit 1
+fi
 
 if [[ "$ci" == true ]]; then
   if [[ "$exclude_ci_binary_log" == false ]]; then
@@ -247,7 +258,7 @@ if [[ "$clean" == true ]]; then
   exit 0
 fi
 
-# Initialize __DistroRid and __PortableTargetOS
+# Initialize __PortableTargetOS
 source $scriptroot/eng/common/native/init-os-and-arch.sh
 source $scriptroot/eng/common/native/init-distro-rid.sh
 initDistroRidGlobal "$os" "$arch" ""
