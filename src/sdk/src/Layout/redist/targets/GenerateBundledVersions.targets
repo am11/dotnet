@@ -7,11 +7,6 @@
       Lines="$(PackageVersion)"
       Overwrite="true"
       Encoding="ASCII" />
-<WriteLinesToFile
-  File="$(ArtifactsShippingPackagesDir)diag.txt"
-  Lines="_IsCommunityPlatform_$(_IsCommunityPlatform)-OSName_$(OSName)-TargetArchitecture_$(TargetArchitecture)-BundleCrossgen2_$(BundleCrossgen2)-DotNetBuildSourceOnly_$(DotNetBuildSourceOnly)-DotNetBuildUseMonoRuntime_$(DotNetBuildUseMonoRuntime)"
-  Overwrite="true"
-  Encoding="ASCII" />
 
     <WriteLinesToFile
       File="$(ArtifactsShippingPackagesDir)sdk-productVersion.txt"
